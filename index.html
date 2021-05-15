@@ -21,8 +21,14 @@
 <title>Writing</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <style type="text/css">
+/*
 @font-face { font-family: texroman; src: url(cmunrm.otf); font-weight: 400; font-style: normal; font-stretch: normal; }
 @font-face { font-family: texroman; src: url(cmunrb.otf); font-weight: 700; font-style: normal; font-stretch: normal; }
+*/
+@font-face { font-family: texroman; src: url(fonts/LibertinusSerif-Regular.otf); font-weight: 400; font-style: normal; font-stretch: normal; }
+@font-face { font-family: texroman; src: url(fonts/LibertinusSerif-Bold.otf); font-weight: 700; font-style: normal; font-stretch: normal; }
+@font-face { font-family: texroman; src: url(fonts/LibertinusSerif-Italic.otf); font-weight: 400; font-style: italic; font-stretch: normal; }
+@font-face { font-family: texroman; src: url(fonts/LibertinusSerif-Bold.otf); font-weight: 700; font-style: italic; font-stretch: normal; }
 
 html { font-family: sans-serif; }
 * { margin: 0; padding: 0; border: 0; outline: 0; }
@@ -206,6 +212,10 @@ $('body').on('drag dragstart dragend dragover dragenter dragleave drop', functio
 
 $('#wmd-input').on('input', function() {
     localStorage.setItem("writing", $('#wmd-input').val());
+    if (saveCount % timeBetweenSaves == 0) {
+        localStorage.setItem("writing"+(saveCount/timeBetweenSaves)%maxSaves, $('#wmd-input').val());
+    }
+    saveCount = saveCount + 1;
 });
 
 $('#wmd-input').focus();
@@ -325,6 +335,9 @@ var editor = new Markdown.Editor(converter, '');
 var mjpd1 = new mjpd();
 togglemathjax(latexenabled);
 toggledarkmode(darkmodeenabled);
+var saveCount = 0;
+var timeBetweenSaves = 50;
+var maxSaves = 50;
 editor.run();
 </script>
     
